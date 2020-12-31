@@ -142,22 +142,17 @@ spec:
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           {{- end }}
           volumeMounts:
-            - name: redmine-files
+            - name: redmine-data
               mountPath: /usr/src/redmine/files
-            - name: redmine-plugins
+              subPath: files
+            - name: redmine-data
               mountPath: /usr/src/redmine/plugins
+              subPath: plugins
       volumes:
-        - name: redmine-files
+        - name: redmine-data
           {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (include "redmine.fullname" .) }}-files
-          {{- else }}
-          emptyDir: {}
-          {{- end }}
-        - name: redmine-plugins
-          {{- if .Values.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (include "redmine.fullname" .) }}-plugins
+            claimName: {{ .Values.persistence.existingClaim | default (include "redmine.fullname" .) }}-data
           {{- else }}
           emptyDir: {}
           {{- end }}
