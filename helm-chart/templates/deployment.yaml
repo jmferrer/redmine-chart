@@ -144,11 +144,20 @@ spec:
           volumeMounts:
             - name: redmine-files
               mountPath: /usr/src/redmine/files
+            - name: redmine-plugins
+              mountPath: /usr/src/redmine/plugins
       volumes:
         - name: redmine-files
           {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.existingClaim | default (include "redmine.fullname" .) }}-files
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: redmine-plugins
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "redmine.fullname" .) }}-plugins
           {{- else }}
           emptyDir: {}
           {{- end }}
