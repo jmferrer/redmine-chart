@@ -34,10 +34,10 @@ data:
     fi
 
     # Set workdir
-    cd /opt/bitnami/redmine
+    cd /usr/src/redmine
 
     # Configuring Database connection
-    if [ $REDMINE_DB_MYSQL ]; then
+    if [ $REDMINE_MAIL_RECEIVER_DB_MYSQL ]; then
     cat <<END > config/database.yml
         production:
             adapter: mysql2
@@ -57,7 +57,7 @@ data:
             port: <%= ENV["REDMINE_MAIL_RECEIVER_DB_PORT"] %>
             encoding: utf8
     END
-    elif [ $REDMINE_DB_POSTGRES ]; then
+    elif [ $REDMINE_MAIL_RECEIVER_DB_POSTGRES ]; then
     cat <<END > config/database.yml
         test:
             adapter: mysql2
