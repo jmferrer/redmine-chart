@@ -85,13 +85,6 @@ spec:
             - name: REDMINE_DB_PORT_NUMBER
               value: {{ .Values.externalDatabase.port | quote }}
             {{- end }}
-            - name: REDMINE_USERNAME
-              value: {{ default "" .Values.redmineUsername | quote }}
-            - name: REDMINE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ template "redmine.secretName" . }}
-                  key: redmine-password
             - name: REDMINE_EMAIL
               value: {{ .Values.redmineEmail | quote }}
             - name: REDMINE_LANG
@@ -119,6 +112,10 @@ spec:
             - name: SMTP_TLS
               value: {{ .Values.smtpTls | quote }}
             {{- end }}
+            {{- if .Values.pluginsMigrate }}
+            - name: REDMINE_PLUGINS_MIGRATE
+              value: "true"
+            {{- end }}
           ports:
             - name: http-redmine
               containerPort: 3000
@@ -145,13 +142,13 @@ spec:
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           {{- end }}
           volumeMounts:
-            - name: redmine-data
-              mountPath: /bitnami/redmine
+            - name: redmine-files
+              mountPath: /usr/src/redmine/files
       volumes:
-        - name: redmine-data
+        - name: redmine-files
           {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (include "redmine.fullname" .) }}
+            claimName: {{ .Values.persistence.existingClaim | default (include "redmine.fullname" .) }}-files
           {{- else }}
           emptyDir: {}
           {{- end }}

@@ -13,8 +13,8 @@
 ##
 image:
   registry: docker.io
-  repository: bitnami/redmine
-  tag: 4.1.0-debian-10-r25
+  repository: jmferrer/redmine
+  tag: "3.4.2"
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
   ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -34,17 +34,6 @@ image:
 ## String to fully override redmine.fullname template
 ##
 # fullnameOverride:
-
-## User of the application
-## ref: https://github.com/bitnami/bitnami-docker-redmine/#environment-variables
-##
-redmineUsername: user
-
-## Application password
-## Defaults to a random 10-character alphanumeric string if not set
-## ref: https://github.com/bitnami/bitnami-docker-redmine#environment-variables
-##
-# redminePassword:
 
 ## Admin email
 ## ref: https://github.com/bitnami/bitnami-docker-redmine/#environment-variables
@@ -199,17 +188,17 @@ mariadb:
   ## ref: https://github.com/bitnami/bitnami-docker-mariadb/blob/master/README.md#creating-a-database-user-on-first-run
   ##
   db:
-    name: bitnami_redmine
-    user: bn_redmine
+    name: redmine
+    user: redmine
     ## If the password is not specified, mariadb will generate a random password
     ##
-    # password:
+    password: redmine
 
   ## MariaDB admin password
   ## ref: https://github.com/bitnami/bitnami-docker-mariadb/blob/master/README.md#setting-the-root-password-on-first-run
   ##
-  # rootUser:
-  #   password:
+  rootUser:
+    password: redmine
 
   ## Enable persistence using Persistent Volume Claims
   ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
@@ -239,11 +228,11 @@ postgresql:
   ## Create a database and a database user
   ## ref: https://github.com/bitnami/bitnami-docker-postgresql/#creating-a-database-on-first-run
   ##
-  postgresqlDatabase: bitnami_redmine
-  postgresqlUsername: bn_redmine
+  postgresqlDatabase: redmine
+  postgresqlUsername: redmine
   ##
   ## If the password is not specified, postgresql will generate a random password
-  # postgresqlPassword:
+  postgresqlPassword: redmine
 
   ## Enable persistence using Persistent Volume Claims
   ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
@@ -387,8 +376,8 @@ mailReceiver:
 
   image:
     registry: docker.io
-    repository: bitnami/redmine
-    tag: 4.0.5-debian-9-r28
+    repository: jmferrer/redmine
+    tag: "3.4.2"
     ## Specify a imagePullPolicy
     ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
     ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -470,3 +459,9 @@ mailReceiver:
   ## Defines a list of attributes which can be overrided by received email body
   ## "all" means that all attributes can be overrided
   allowOverride: ""
+
+## Configure automatic plugins migrations in var REDMINE_PLUGINS_MIGRATE
+## ref: https://hub.docker.com/_/redmine
+##
+
+pluginsMigrate: "1"
