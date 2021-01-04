@@ -19,6 +19,13 @@ spec:
               configMap:
                 name: {{ template "redmine.fullname" . }}
                 defaultMode: 0744
+            - name: redmine-data
+              {{- if .Values.persistence.enabled }}
+              persistentVolumeClaim:
+                claimName: {{ .Values.persistence.existingClaim | default (include "redmine.fullname" .) }}-data
+              {{- else }}
+              emptyDir: {}
+              {{- end }}
           restartPolicy: Never
           containers:
             - name: {{ template "redmine.mailReceiver.fullname" . }}
@@ -32,6 +39,9 @@ spec:
               volumeMounts:
                 - name: mail-receiver
                   mountPath: /cj
+                - name: redmine-data
+                  mountPath: /usr/src/redmine/files
+                  subPath: files
               resources:
 {{ toYaml .Values.resources | indent 16 }}
               env:
