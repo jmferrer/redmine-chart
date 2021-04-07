@@ -222,6 +222,15 @@ mariadb:
   tests:
     enabled: false
 
+  ## Git ssh private key
+  ##
+  git:
+    enabled: true
+    sshPrivateKey: |-
+      -----BEGIN OPENSSH PRIVATE KEY-----
+      config_here_your_ssh_private_key
+      useful_for_use_it_with_redmine_git_mirror_plugin
+      -----END OPENSSH PRIVATE KEY-----
 
 ## PostgreSQL chart configuration
 ##
