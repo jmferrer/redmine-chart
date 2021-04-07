@@ -217,6 +217,12 @@ mariadb:
       accessMode: ReadWriteOnce
       size: 8Gi
 
+  ## Disable BATS tests
+  ##
+  tests:
+    enabled: false
+
+
 ## PostgreSQL chart configuration
 ##
 ## https://github.com/helm/charts/blob/master/stable/postgresql/values.yaml

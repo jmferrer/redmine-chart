@@ -201,5 +201,8 @@ data:
     eval $COMMAND
     echo "Email receiveing completed"
 
+    echo "Fixing permissions"
+    chown -R redmine:redmine /usr/src/redmine/files/*
+
     exit 0
 {{- end -}}
