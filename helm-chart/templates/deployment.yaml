@@ -151,6 +151,8 @@ spec:
             {{- if .Values.git.enabled }}
             - name: ssh-private-key
               mountPath: /home/redmine/.ssh
+            - name: known-hosts
+              mountPath: /home/redmine/.ssh
             - name: ssh-config
               mountPath: /etc/ssh
             {{- end }}
@@ -170,6 +172,8 @@ spec:
             items: 
             - key: "ssh-private-key"
               path: "id_rsa"
+            - key: "known-hosts"
+              path: "known_hosts"
         - name: ssh-config
           secret:
             secretName: {{ template "redmine.fullname" . }}
