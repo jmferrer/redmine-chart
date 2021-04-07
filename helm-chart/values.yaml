@@ -61,8 +61,8 @@ git:
   sshPrivateKeyB64Enc: cmVkbWluZQo=
   sshConfig: |-
     Host *
-      GlobalKnownHostsFile=/dev/null
-      UserKnownHostsFile=/dev/null
+      GlobalKnownHostsFile=/tmp/known_hosts
+      UserKnownHostsFile=/tmp/known_hosts
       StrictHostKeyChecking=no
 
 ## Use an existing secret with keys "redmine-password", "smtp-password" and "external-db-password" defined.
