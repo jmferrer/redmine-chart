@@ -58,7 +58,11 @@ redmineLanguage: en
 ##
 git:
   enabled: false
-  sshPrivateKey: cmVkbWluZQo=
+  sshPrivateKeyB64Enc: cmVkbWluZQo=
+  sshConfig: |-
+    GlobalKnownHostsFile=/dev/null
+    UserKnownHostsFile=/dev/null
+    StrictHostKeyChecking=no
 
 ## Use an existing secret with keys "redmine-password", "smtp-password" and "external-db-password" defined.
 ## This ignores redminePassword, smtpPassword and externalDatabase.password

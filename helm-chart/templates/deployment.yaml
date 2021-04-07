@@ -149,7 +149,7 @@ spec:
               mountPath: /usr/src/redmine/plugins
               subPath: plugins
             {{- if .Values.git.enabled }}
-            - name: ssh-private-key
+            - name: ssh-config
               mountPath: /home/redmine/.ssh
             {{- end }}
       volumes:
@@ -161,11 +161,13 @@ spec:
           emptyDir: {}
           {{- end }}
         {{- if .Values.git.enabled }}
-        - name: ssh-private-key
+        - name: ssh-config
           secret:
             secretName: {{ template "redmine.fullname" . }}
             defaultMode: 0666
             items: 
             - key: "ssh-private-key"
               path: "id_rsa"
+            - key: "ssh-config"
+              path: "config"
         {{- end }}
