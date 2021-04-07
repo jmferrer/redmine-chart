@@ -161,7 +161,7 @@ spec:
           emptyDir: {}
           {{- end }}
         {{- if .Values.git.enabled }}
-        - name: ssh-key
+        - name: ssh-private-key
           secret:
             secretName: {{ template "redmine.fullname" . }}
             defaultMode: 0660
