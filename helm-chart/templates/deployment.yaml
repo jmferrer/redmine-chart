@@ -164,7 +164,7 @@ spec:
         - name: ssh-private-key
           secret:
             secretName: {{ template "redmine.fullname" . }}
-            defaultMode: 0660
+            defaultMode: 0666
             items: 
             - key: "ssh-private-key"
               path: "id_rsa"
