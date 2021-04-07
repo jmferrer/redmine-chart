@@ -58,11 +58,7 @@ redmineLanguage: en
 ##
 git:
   enabled: false
-  sshPrivateKey: |-
-    -----BEGIN OPENSSH PRIVATE KEY-----
-    config_here_your_ssh_private_key
-    useful_for_use_it_with_redmine_git_mirror_plugin
-    -----END OPENSSH PRIVATE KEY-----
+  sshPrivateKey: cmVkbWluZQo=
 
 ## Use an existing secret with keys "redmine-password", "smtp-password" and "external-db-password" defined.
 ## This ignores redminePassword, smtpPassword and externalDatabase.password
