@@ -225,7 +225,7 @@ mariadb:
   ## Git ssh private key
   ##
   git:
-    enabled: true
+    enabled: false
     sshPrivateKey: |-
       -----BEGIN OPENSSH PRIVATE KEY-----
       config_here_your_ssh_private_key
