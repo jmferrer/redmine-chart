@@ -228,6 +228,7 @@ mariadb:
   tests:
     enabled: false
 
+
 ## PostgreSQL chart configuration
 ##
 ## https://github.com/helm/charts/blob/master/stable/postgresql/values.yaml
