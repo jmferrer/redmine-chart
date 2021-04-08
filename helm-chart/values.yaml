@@ -54,6 +54,12 @@ redmineLanguage: en
 # smtpPassword:
 # smtpTls:
 
+## Git ssh private key
+##
+git:
+  enabled: false
+  sshPrivateKeyB64Enc: cmVkbWluZQo=
+
 ## Use an existing secret with keys "redmine-password", "smtp-password" and "external-db-password" defined.
 ## This ignores redminePassword, smtpPassword and externalDatabase.password
 # existingSecret:

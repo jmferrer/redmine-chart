@@ -116,6 +116,12 @@ spec:
             - name: REDMINE_PLUGINS_MIGRATE
               value: "true"
             {{- end }}
+          command: 
+            - /bin/bash
+            - "-c"
+            - "--"
+          args:
+            - "if [ -e /root/.ssh/id_rsa ]; then mkdir /home/redmine/.ssh; cat /root/.ssh/id_rsa > /home/redmine/.ssh/id_rsa; chown -R redmine:redmine /home/redmine/.ssh; chmod 600 /home/redmine/.ssh/id_rsa; ls -la /home/redmine/.ssh/;fi; /docker-entrypoint.sh rails server -b 0.0.0.0"
           ports:
             - name: http-redmine
               containerPort: 3000
@@ -148,6 +154,10 @@ spec:
             - name: redmine-data
               mountPath: /usr/src/redmine/plugins
               subPath: plugins
+            {{- if .Values.git.enabled }}
+            - name: ssh-private-key
+              mountPath: /root/.ssh
+            {{- end }}
       volumes:
         - name: redmine-data
           {{- if .Values.persistence.enabled }}
@@ -156,3 +166,12 @@ spec:
           {{- else }}
           emptyDir: {}
           {{- end }}
+        {{- if .Values.git.enabled }}
+        - name: ssh-private-key
+          secret:
+            secretName: {{ template "redmine.fullname" . }}
+            defaultMode: 0666
+            items: 
+            - key: "ssh-private-key"
+              path: "id_rsa"
+        {{- end }}
