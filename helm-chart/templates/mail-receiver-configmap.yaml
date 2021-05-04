@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "redmine.fullname" . }}
+  name: {{ template "redmine.fullname" . }}-receiver
   labels: {{- include "redmine.labels" . | nindent 4 }}
 data:
   receive.sh: |

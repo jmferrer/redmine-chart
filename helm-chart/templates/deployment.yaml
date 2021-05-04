@@ -300,6 +300,6 @@ spec:
         {{- if .Values.mailReceiver.enabled }}
         - name: mail-receiver
           configMap:
-            name: {{ template "redmine.fullname" . }}
+            name: {{ template "redmine.fullname" . }}-receiver
             defaultMode: 0744
         {{- end }}
