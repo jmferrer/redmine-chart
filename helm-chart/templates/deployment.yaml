@@ -7,6 +7,8 @@ spec:
   selector:
     matchLabels: {{- include "redmine.matchLabels" . | nindent 6 }}
   replicas: {{ .Values.replicas }}
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels: {{- include "redmine.labels" . | nindent 8 }}
@@ -159,7 +161,7 @@ spec:
               mountPath: /root/.ssh
             {{- end }}
         {{- if .Values.mailReceiver.enabled }}
-        - name: {{ template "redmine.mailReceiver.fullname" . }}
+        - name: {{ template "redmine.mailReceiver.fullname" . }}-receiver
           image: {{ template "redmine.mailReceiver.image" . }}
           imagePullPolicy: {{ .Values.mailReceiver.image.pullPolicy | quote }}
           command:
@@ -167,7 +169,7 @@ spec:
           args:
             - -c
             - while true; do /cj/receive.sh; sleep {{ .Values.mailReceiver.checkPeriod }}; done
-              resources:
+          resources:
 {{ toYaml .Values.resources | indent 12 }}
           volumeMounts:
             - name: mail-receiver
