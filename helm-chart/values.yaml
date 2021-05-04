@@ -380,8 +380,8 @@ mailReceiver:
   ## Whether to enable scheduled task
   enabled: false
 
-  ## CronJob schedule
-  schedule: "*/5 * * * *"
+  ## Check period
+  checkPeriod: 60s
 
   ## CronJob suspend flag
   suspend: true
