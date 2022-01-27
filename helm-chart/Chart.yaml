@@ -17,4 +17,4 @@ keywords:
 name: redmine
 sources:
 - https://github.com/jmferrer/redmine-chart
-version: 0.0.9
+version: 0.0.10
