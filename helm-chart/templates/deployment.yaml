@@ -280,6 +280,23 @@ spec:
             - name: REDMINE_MAIL_RECEIVER_POP3_DELETE_UNPROCESSED
               value: {{ .Values.mailReceiver.moveOnFailure | quote }}
         {{- end }}
+        {{- if .Values.stunnel.enabled }}
+        - name: {{ template "redmine.fullname" . }}-stunnel
+          image: {{ .Values.stunnel.image.repository }}:{{ .Values.stunnel.image.tag }}
+          imagePullPolicy: {{ .Values.stunnel.image.pullPolicy | quote }}
+          volumeMounts:
+            - name: stunnel-certs
+              mountPath: /etc/stunnel/stunnel.key
+              subPath: stunnel.key
+            - name: stunnel-certs
+              mountPath: /etc/stunnel/stunnel.pem
+              subPath: stunnel.pem
+          env:
+            {{ range $name, $value := .Values.stunnel.envVars }}
+            - name: STUNNEL_{{ upper $name }}
+              value: {{ $value | quote }}
+            {{ end }}
+        {{- end }}
       volumes:
         - name: redmine-data
           {{- if .Values.persistence.enabled }}
@@ -302,4 +319,10 @@ spec:
           configMap:
             name: {{ template "redmine.fullname" . }}-receiver
             defaultMode: 0744
+        {{- end }}
+        {{- if .Values.stunnel.enabled }}
+        - name: stunnel-certs
+          secret:
+            secretName: {{ template "redmine.fullname" . }}-stunnel
+            defaultMode: 0666
         {{- end }}

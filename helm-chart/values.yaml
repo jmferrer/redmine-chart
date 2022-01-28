@@ -477,3 +477,51 @@ mailReceiver:
 ##
 
 pluginsMigrate: "1"
+
+## Create a stunnel container to allow redmine to use ldaps servers connecting to ldap in localhost
+## https://hub.docker.com/r/dweomer/stunnel
+## https://www.github.com/dweomer/dockerfiles-stunnel
+## docker run -it --rm --name ldap -p 1636:1636 \
+## -e STUNNEL_SERVICE=ldap \
+## -e STUNNEL_CLIENT=yes \
+## -e STUNNEL_ACCEPT=1636 \
+## -e STUNNEL_CONNECT=ldap.google.com:636 \
+## -v /etc/stunnel/Google_2025_01_25_48515.key:/etc/stunnel/stunnel.key:ro \
+## -v /etc/stunnel/Google_2025_01_25_48515.crt:/etc/stunnel/stunnel.pem:ro \
+## dweomer/stunnel
+stunnel:
+  enabled: false
+
+  image:
+    repository: dweomer/stunnel
+    tag: latest
+    ## Specify a imagePullPolicy
+    ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
+    ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+    ##
+    pullPolicy: IfNotPresent
+    ## Optionally specify an array of imagePullSecrets.
+    ## Secrets must be manually created in the namespace.
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+    ##
+    # pullSecrets:
+    #   - myRegistryKeySecretName
+
+  # https://github.com/dweomer/dockerfiles-stunnel
+  # All var names are converted following this rule: varname -> STUNNEL_{{ upper varname }}
+  # This stunnel is been used with google ldap so ...
+  envVars:
+    service: ldap
+    client: "yes"
+    accept: "1636"
+    connect: ldap.google.com:636
+
+  key: |-
+    -----BEGIN PRIVATE KEY-----
+    set your key here
+    -----END PRIVATE KEY-----
+
+  pem: |-
+    -----BEGIN CERTIFICATE-----
+    set your certificate here
+    -----END CERTIFICATE-----
